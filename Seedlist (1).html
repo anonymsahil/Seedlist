@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seedlist</title>
+<style>
+:root{--bg:#fff;--tx:#111;--mu:#6b6b6b;--ln:#e6e6e6;--or:#f26522;--tg:#f2f2f2;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161616;--tx:#f0f0f0;--mu:#a0a0a0;--ln:#2e2e2e;--tg:#262626;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161616;--tx:#f0f0f0;--mu:#a0a0a0;--ln:#2e2e2e;--tg:#262626;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.5 "Helvetica Neue",Helvetica,Arial,sans-serif;display:flex;flex-direction:column}
+a,button,input,select,textarea{font:inherit;color:inherit}
+a{text-decoration:none}
+button{cursor:pointer;background:none;border:0;padding:0;text-align:left}
+input,select,textarea{background:var(--bg);border:1px solid var(--ln);padding:8px 10px;width:100%;border-radius:0}
+:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+header{display:flex;align-items:center;gap:16px;padding:0 24px;height:52px;border-bottom:1px solid var(--ln);flex:none}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px}
+.logo i{width:22px;height:22px;background:var(--or);color:#fff;font:700 14px/22px Arial;text-align:center;font-style:normal}
+.sp{flex:1}
+.mu{color:var(--mu)}
+.btn{display:inline-block;border:1px solid var(--tx);padding:7px 14px;font-size:14px;text-align:center}
+.btn.or{background:var(--or);border-color:var(--or);color:#fff;font-weight:600}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.view{display:none}
+.view.on{display:block;flex:1;overflow:auto}
+.wrap{max-width:900px;margin:0 auto;padding:56px 24px}
+.hero h1{font-size:44px;line-height:1.08;margin:0 0 16px;max-width:700px}
+.hero p{font-size:19px;max-width:600px;margin:0 0 26px}
+.hero .acts{display:flex;gap:10px;flex-wrap:wrap}
+.blk{display:grid;grid-template-columns:200px 1fr;gap:20px;padding:22px 0;border-top:1px solid var(--ln)}
+.blk h3{margin:0;font-size:16px}
+.blk p{margin:0 0 8px;max-width:600px}
+ol{margin:0;padding-left:20px;max-width:600px}
+ol li{padding:3px 0}
+.sec{margin-top:48px}
+.sec>h2{font-size:14px;color:var(--mu);font-weight:600;margin:0 0 4px}
+.card{max-width:400px;margin:0 auto;padding:56px 24px}
+.card h1{font-size:28px;margin:0 0 6px}
+.seg{display:flex;margin:16px 0}
+.seg button{flex:1;text-align:center;border:1px solid var(--ln);padding:8px}
+.seg button[aria-pressed="true"]{border-color:var(--or);color:var(--or);font-weight:700}
+label{display:block;font-size:13px;color:var(--mu);margin:12px 0 4px}
+.dirv.on{display:grid;grid-template-columns:200px 1fr;overflow:hidden}
+.dirv.on.open{grid-template-columns:1fr 3fr}
+nav{border-right:1px solid var(--ln);padding:20px 24px;overflow:auto}
+nav h3{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--mu)}
+nav button{display:flex;justify-content:space-between;width:100%;padding:6px 0;color:var(--mu)}
+nav button[aria-current="true"]{color:var(--or);font-weight:700}
+.open nav,.open .flt,.open .sub{display:none}
+.col{overflow:auto;padding:20px 28px}
+.tabs{display:flex;gap:18px;margin-bottom:10px}
+.tabs button{color:var(--mu);padding-bottom:4px}
+.tabs button[aria-pressed="true"]{color:var(--tx);font-weight:700;border-bottom:2px solid var(--or)}
+.col h1{font-size:26px;margin:0 0 2px}
+.sub{color:var(--mu);margin:0 0 12px}
+.flt{display:grid;grid-template-columns:2fr repeat(3,1fr) auto;gap:10px;align-items:end;margin-bottom:14px}
+.flt label{margin:0 0 3px}
+.chk{display:flex;gap:10px;padding-bottom:9px;font-size:14px}
+.chk label{display:flex;align-items:center;gap:4px;margin:0;color:var(--tx)}
+.chk input{width:auto}
+.row{display:grid;grid-template-columns:1fr 80px 170px 80px 28px;gap:16px;align-items:start;padding:16px 0;border-top:1px solid var(--ln);cursor:pointer}
+.row:hover .nm{color:var(--or)}
+.nm{font-weight:700;font-size:16px}
+.ds{color:var(--mu);font-size:14px}
+.tag{display:inline-block;background:var(--tg);font-size:12px;padding:1px 7px;margin:6px 6px 0 0}
+.m small{display:block;color:var(--mu);font-size:12px}
+.m b{font-weight:600}
+.star{font-size:18px;color:var(--mu);text-align:center}
+.star.on{color:var(--or)}
+.open .col{padding:14px}
+.open .col h1{font-size:17px}
+.open .row{grid-template-columns:1fr 24px;padding:11px 8px;gap:4px}
+.open .row .m,.open .row .ds,.open .row .tag{display:none}
+.open .row.sel{background:var(--tg);box-shadow:inset 3px 0 var(--or)}
+.panel{display:none;overflow:auto;border-left:1px solid var(--ln);padding:20px 32px 40px}
+.open .panel{display:block}
+.crumb{display:flex;justify-content:space-between;color:var(--mu);font-size:13px;margin-bottom:18px}
+.crumb button{color:var(--tx);border:1px solid var(--ln);padding:3px 10px}
+.panel h2{font-size:30px;margin:0 0 4px}
+dl{margin:20px 0;max-width:680px}
+dl div{display:grid;grid-template-columns:190px 1fr;gap:12px;padding:9px 0;border-top:1px solid var(--ln)}
+dt{color:var(--mu)}
+dd{margin:0}
+.vid{max-width:680px;border:1px solid var(--ln);padding:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.vid p{margin:0}
+.acts{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
+.panel textarea{max-width:680px;min-height:80px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.fg .w{grid-column:1/-1}
+.ok{border:1px solid var(--or);padding:14px;margin-top:16px}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:9px 14px;display:none;z-index:5;font-size:14px;max-width:90%}
+.nl{color:var(--mu);font-size:14px}.nl:hover{color:var(--tx)}
+.feat{border:1px solid var(--ln);padding:30px;margin-bottom:44px}
+.feat h1{font-size:44px;line-height:1.08;margin:6px 0 8px}
+.feat .lead{font-size:19px;margin:0 0 4px}
+.bidbox{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);padding:16px 0;margin:20px 0 10px}
+.big{font-size:38px;font-weight:700;line-height:1.1}
+.hist{margin-top:12px;max-width:360px;font-size:14px}
+.hist div{display:flex;justify-content:space-between;padding:5px 0;border-top:1px solid var(--ln)}
+.hero h1{font-size:34px}
+.dc{border-top:1px solid var(--ln);padding:18px 0}
+.dc .top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:10px}
+.bar{height:6px;background:var(--tg);margin:6px 0}
+.bar i{display:block;height:100%;background:var(--or)}
+.dbox{margin-top:14px;padding:14px;border:1px solid var(--ln)}
+.pre{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.pre button{border:1px solid var(--ln);padding:6px 12px}
+@media (max-width:760px){.feat{padding:18px}.feat h1{font-size:30px}}
+@media (max-width:760px){
+ header{padding:0 14px}
+ .hero h1{font-size:32px}
+ .wrap{padding:36px 16px}
+ .blk{grid-template-columns:1fr;gap:4px}
+ .dirv.on,.dirv.on.open{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+ .dirv.on.open{grid-template-rows:1fr 3fr}
+ nav{display:flex;gap:16px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--ln);padding:10px 14px}
+ nav h3{display:none}
+ nav button{width:auto;white-space:nowrap;gap:6px}
+ .col{padding:14px}
+ .flt{grid-template-columns:1fr 1fr}
+ .flt>:first-child{grid-column:1/-1}
+ .row{grid-template-columns:1fr 1fr 28px;gap:8px}
+ .row>div:first-child{grid-column:1/-1}
+ .open .row{grid-template-columns:1fr 24px}
+ .panel{border-left:0;border-top:2px solid var(--or);padding:16px}
+ dl div{grid-template-columns:1fr;gap:2px}
+ .fg{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#home"><i>S</i>Seedlist</a>
+  <a class="nl" href="#donate">Donate</a>
+  <span class="sp"></span>
+  <span class="mu" id="who"></span>
+  <a class="btn" id="hbtn" href="#signin">Sign in</a>
+</header>
+
+<section class="view" id="v-home">
+  <div class="wrap">
+    <section class="feat" id="feat" aria-live="polite"></section>
+    <div class="hero">
+      <h1>Back early projects, or raise for yours.</h1>
+      <p>Anyone can give anonymously as a patron. Founders and investors sign in to talk funding, privately.</p>
+      <div class="acts"><a class="btn or" href="#donate">Donate anonymously</a><a class="btn" href="#signin">Sign in</a><a class="btn" href="#apply">Apply for access</a></div>
+    </div>
+    <div class="sec">
+      <h2>What Seedlist is</h2>
+      <div class="blk"><h3>For investors</h3><div><p>A short list of vetted projects, each with the same facts: sector, audience, B2B or B2C, scale, estimated growth, current traction and the amount being raised.</p><p>Filter, shortlist, take private notes, and open the founder’s live site without leaving the page.</p></div></div>
+      <div class="blk"><h3>For founders</h3><div><p>No stage, no pitch tour. Submit your numbers and a Loom video. Only certified investors can open them.</p><p>You see how many investors viewed your project. You see who they are only when they choose to reach out.</p></div></div>
+      <div class="blk"><h3>Anonymous patrons</h3><div><p>Give up to $100,000 (1 lakh) to any listed startup without an account. Patrons get no equity, shares or returns, and see only each startup’s public page.</p></div></div>
+      <div class="blk"><h3>Privacy</h3><div><p>Projects and investors are hidden until you sign in. Competitors and the public can’t browse the list, and investors can’t see each other.</p></div></div>
+    </div>
+    <div class="sec">
+      <h2>How it works</h2>
+      <div class="blk"><h3>Four steps</h3><ol><li>Apply as a founder or an investor.</li><li>We verify your identity. Investors also need certification.</li><li>Founders submit a project. Investors browse by sector.</li><li>Investors express interest and the founder decides whether to connect.</li></ol></div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="v-signin">
+  <div class="card">
+    <h1 id="sh">Sign in</h1>
+    <p class="mu" id="ss">Access is limited to approved members.</p>
+    <div class="seg" id="seg"><button data-r="investor" aria-pressed="true">Investor</button><button data-r="founder" aria-pressed="false">Founder</button></div>
+    <label for="em">Email</label><input id="em" type="email" autocomplete="email">
+    <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+    <p><button class="btn or" id="go" style="width:100%">Sign in</button></p>
+    <p class="mu" style="font-size:13px">Demo only. Any email and password works. Live accounts are checked before access is granted.</p>
+  </div>
+</section>
+
+<section class="view dirv" id="v-dir">
+  <nav id="nav" aria-label="Sectors"></nav>
+  <div class="col">
+    <div class="tabs" id="tabs"></div>
+    <h1 id="ttl"></h1>
+    <p class="sub" id="sub"></p>
+    <div class="flt" id="flt">
+      <div><label for="q">Search</label><input id="q" placeholder="Name, audience, product"></div>
+      <div><label>Model</label><div class="chk"><label><input type="checkbox" id="mB" checked>B2B</label><label><input type="checkbox" id="mC" checked>B2C</label></div></div>
+      <div><label for="gm">Minimum growth</label><select id="gm"><option value="0">Any</option><option value="100">100%+</option><option value="150">150%+</option><option value="200">200%+</option></select></div>
+      <div><label for="so">Sort by</label><select id="so"><option value="g">Growth</option><option value="n">Newest</option><option value="a">Smallest ask</option></select></div>
+      <div><label>Stage</label><div class="chk"><label><input type="checkbox" class="stg" value="Beta" checked>Beta</label><label><input type="checkbox" class="stg" value="Pilot" checked>Pilot</label><label><input type="checkbox" class="stg" value="Live" checked>Live</label></div></div>
+    </div>
+    <div id="list"></div>
+  </div>
+  <aside class="panel" id="panel"></aside>
+</section>
+
+<section class="view" id="v-sub">
+  <div class="wrap" style="max-width:700px">
+    <h1 style="font-size:28px;margin:0 0 4px">Submit your project</h1>
+    <p class="mu">Visible only to certified investors. Use real numbers. They are checked.</p>
+    <div class="fg">
+      <div class="w"><label for="f1">Project name</label><input id="f1"></div>
+      <div><label for="f2">Sector</label><select id="f2"></select></div>
+      <div><label for="f3">Model</label><select id="f3"><option>B2B</option><option>B2C</option></select></div>
+      <div class="w"><label for="f4">Target audience</label><input id="f4"></div>
+      <div class="w"><label for="f5">What you provide</label><input id="f5"></div>
+      <div><label for="f6">Stage</label><select id="f6"><option>Beta</option><option>Pilot</option><option>Live</option></select></div>
+      <div><label for="f7">Expected scale</label><input id="f7" placeholder="Regional, national, global"></div>
+      <div><label for="f8">Estimated 12-month growth (%)</label><input id="f8" type="number" min="0"></div>
+      <div><label for="f9">Amount raising</label><input id="f9" placeholder="$250k"></div>
+      <div class="w"><label for="f10">Current traction (users, sales, volume)</label><input id="f10"></div>
+      <div class="w"><label for="f11">Loom video link</label><input id="f11" type="url" placeholder="https://www.loom.com/share/..."></div>
+    </div>
+    <p><button class="btn or" id="subm">Submit for review</button></p>
+    <div class="ok" id="subok" hidden>Submitted. We will verify your numbers and tell you when your project is live to investors.</div>
+  </div>
+</section>
+<section class="view" id="v-donate"><div class="wrap">
+  <h1 style="font-size:32px;margin:0 0 6px">Donate anonymously</h1>
+  <p class="mu" style="max-width:620px">Back an early project as a patron. Your name is never shared. Gifts carry no equity, shares or returns, and each startup can receive up to $100,000 (1 lakh) this way.</p>
+  <p class="mu" style="font-size:13px;margin-bottom:24px">Opening a project shows its home page in a separate window. Founder numbers, investors and the member site stay private. <a href="#signin" style="color:var(--or)">Sign in</a> to discuss funding.</p>
+  <div id="dl"></div>
+</div></section>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// Sample data only. In a live site this comes from a server after sign-in.
+var P=[
+{id:1,n:"CartPilot",s:"E-commerce",m:"B2B",st:"Beta",t:"Checkout recovery for small online stores.",a:"Online merchants with 1–50 staff",o:"Automated cart-abandon flows over WhatsApp and email",sc:"Regional, then national",g:140,tr:"310 stores, $18k MRR",ask:"$250k",k:250,site:"https://example.com"},
+{id:2,n:"ShelfSense",s:"E-commerce",m:"B2C",st:"Live",t:"Price-drop alerts across local marketplaces.",a:"Deal-hunting shoppers, 18–35",o:"Browser extension and alert feed",sc:"National",g:90,tr:"42k users, $6k/mo revenue",ask:"$150k",k:150,site:"https://example.com"},
+{id:3,n:"Tallyfarm",s:"AgriTech",m:"B2B",st:"Pilot",t:"Yield forecasting for smallholder cooperatives.",a:"Farming cooperatives and buyers",o:"Satellite and soil-sensor forecast dashboard",sc:"Multi-country",g:210,tr:"6 co-ops, 4,200 farmers",ask:"$400k",k:400,site:"https://example.com"},
+{id:4,n:"Medimind",s:"HealthTech",m:"B2C",st:"Beta",t:"Medication reminders for elderly patients.",a:"Adults 60+ and their caregivers",o:"Voice-first app with caregiver alerts",sc:"National",g:120,tr:"2,100 active users, no revenue yet",ask:"$200k",k:200,site:"https://example.com"},
+{id:5,n:"LedgerLoop",s:"FinTech",m:"B2B",st:"Live",t:"Invoice financing for agencies that hire freelancers.",a:"Agencies paying 20+ freelancers",o:"Net-30 invoices with instant freelancer payout",sc:"Global",g:260,tr:"$1.2M processed, $14k revenue",ask:"$600k",k:600,site:"https://example.com"},
+{id:6,n:"Kinfolk Learn",s:"EdTech",m:"B2C",st:"Live",t:"Peer tutoring marketplace for school students.",a:"Grades 8–12 and parents",o:"Vetted student tutors, booking and payments",sc:"Regional",g:75,tr:"900 sessions/mo, $5.5k GMV",ask:"$120k",k:120,site:"https://example.com"}
+];
+var S=["E-commerce","AgriTech","HealthTech","FinTech","EdTech"];
+var user=null,role="investor",mode="browse",sector=S[0],cur=null,win=null,short={},notes={};
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function toast(m){var t=$("toast");t.textContent=m;t.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.display="none"},2800)}
+
+/* routing: the project list only exists after sign-in */
+function route(){
+  var h=location.hash.slice(1)||"home";
+  if(h==="apply"){h="signin"}
+  if((h==="directory"||h==="submit")&&!user){h="signin"}
+  if(h==="directory"&&user&&user.role==="founder"){h="submit"}
+  if(h==="submit"&&user&&user.role==="investor"){h="directory"}
+  if(h==="signin"&&user){h=user.role==="founder"?"submit":"directory"}
+  var map={home:"v-home",signin:"v-signin",directory:"v-dir",submit:"v-sub",donate:"v-donate"};
+  ["v-home","v-signin","v-dir","v-sub","v-donate"].forEach(function(v){$(v).classList.toggle("on",v===map[h])});
+  var isApply=location.hash==="#apply";
+  $("sh").textContent=isApply?"Apply for access":"Sign in";
+  $("go").textContent=isApply?"Submit application":"Sign in";
+  $("who").textContent=user?user.email+" ("+user.role+") · single sign-on on":"";
+  var hb=$("hbtn");hb.textContent=user?"Sign out":"Sign in";hb.setAttribute("href",user?"#home":"#signin");
+  if(h==="directory"){nav();list();panel()}
+  if(h==="home")renderHome();
+  if(h==="donate")renderDonate();
+}
+$("hbtn").onclick=function(){if(user){user=null;cur=null;if(win&&!win.closed)win.close();short={};notes={}}};
+window.addEventListener("hashchange",route);
+$("seg").onclick=function(e){var b=e.target.closest("button");if(!b)return;role=b.dataset.r;
+  Array.prototype.forEach.call($("seg").children,function(x){x.setAttribute("aria-pressed",x===b)})};
+$("go").onclick=function(){
+  var em=$("em").value.trim()||"demo@seedlist.test";
+  if(location.hash==="#apply"){toast("Application received. In the live site we verify you before access.")}
+  user={email:em,role:role};
+  location.hash=role==="founder"?"#submit":"#directory";route();
+};
+
+/* directory */
+function nav(){
+  $("nav").innerHTML='<h3>Sector</h3>'+S.map(function(s){
+    var n=P.filter(function(p){return p.s===s}).length;
+    return '<button data-s="'+s+'" aria-current="'+(mode==="browse"&&s===sector)+'"><span>'+s+'</span><span>'+n+'</span></button>';
+  }).join("");
+  var c=Object.keys(short).length;
+  $("tabs").innerHTML='<button data-m="browse" aria-pressed="'+(mode==="browse")+'">Browse</button><button data-m="short" aria-pressed="'+(mode==="short")+'">Shortlist ('+c+')</button>';
+}
+function rows(){
+  var q=$("q").value.toLowerCase(),b=$("mB").checked,c=$("mC").checked,g=+$("gm").value,so=$("so").value;
+  var st=Array.prototype.filter.call(document.querySelectorAll(".stg"),function(x){return x.checked}).map(function(x){return x.value});
+  var r=P.filter(function(p){
+    if(mode==="short"?!short[p.id]:p.s!==sector)return false;
+    if(!((p.m==="B2B"&&b)||(p.m==="B2C"&&c)))return false;
+    if(st.indexOf(p.st)<0||p.g<g)return false;
+    return !q||(p.n+" "+p.t+" "+p.a+" "+p.o).toLowerCase().indexOf(q)>=0;
+  });
+  r.sort(function(x,y){return so==="g"?y.g-x.g:so==="a"?x.k-y.k:y.id-x.id});
+  return r;
+}
+function list(){
+  var r=rows();
+  $("ttl").textContent=mode==="short"?"Shortlist":sector;
+  $("sub").textContent=r.length+" project"+(r.length===1?"":"s")+". Growth is the founder’s 12-month estimate.";
+  $("list").innerHTML=r.map(function(p){
+    return '<div class="row'+(cur&&cur.id===p.id?' sel':'')+'" data-id="'+p.id+'" tabindex="0" role="button"><div><div class="nm">'+esc(p.n)+'</div><div class="ds">'+esc(p.t)+'</div><span class="tag">'+p.m+'</span><span class="tag">'+p.st+'</span></div>'+
+    '<div class="m"><small>Growth</small><b>+'+p.g+'%</b></div><div class="m"><small>Traction</small><b>'+esc(p.tr)+'</b></div><div class="m"><small>Raising</small><b>'+esc(p.ask)+'</b></div>'+
+    '<button class="star'+(short[p.id]?' on':'')+'" aria-label="Shortlist '+esc(p.n)+'">'+(short[p.id]?'★':'☆')+'</button></div>';
+  }).join("")||'<p class="mu">No projects match these filters. Loosen a filter or search term.</p>';
+}
+function panel(){
+  var p=cur,el=$("panel");
+  $("v-dir").classList.toggle("open",!!p);
+  if(!p){el.innerHTML="";return}
+  el.innerHTML='<div class="crumb"><span>Seedlist / '+p.s+' / '+esc(p.n)+'</span><button id="close" aria-label="Close project">Close ✕</button></div>'+
+  '<h2>'+esc(p.n)+'</h2><p style="font-size:17px;margin:0">'+esc(p.t)+'</p>'+
+  '<dl><div><dt>Sector</dt><dd>'+p.s+'</dd></div><div><dt>Model</dt><dd>'+(p.m==="B2B"?"B2B, sells to businesses":"B2C, sells to consumers")+'</dd></div><div><dt>Target audience</dt><dd>'+esc(p.a)+'</dd></div><div><dt>What they provide</dt><dd>'+esc(p.o)+'</dd></div><div><dt>Stage</dt><dd>'+p.st+'</dd></div><div><dt>Current traction</dt><dd>'+esc(p.tr)+'</dd></div><div><dt>Expected scale</dt><dd>'+esc(p.sc)+'</dd></div><div><dt>Estimated growth</dt><dd>+'+p.g+'% in 12 months</dd></div><div><dt>Raising</dt><dd>'+esc(p.ask)+'</dd></div></dl>'+
+  '<div class="vid"><p><b>Founder pitch</b><br>Loom video with exact business numbers.</p><button class="btn" id="vid">Watch video</button></div>'+
+  '<div class="acts"><button class="btn" id="site">Open live website</button><button class="btn" id="sl">'+(short[p.id]?'Remove from shortlist':'Add to shortlist')+'</button><button class="btn or" id="int">Express interest</button></div>'+
+  '<label for="nt">Private notes (only you can see these)</label><textarea id="nt"></textarea>'+
+  '<p class="mu" style="font-size:13px">Close this project to browse another sector. The founder sees how many investors viewed their project, not who. Your sign-in carries over to the startup’s site (single sign-on).</p>';
+  $("nt").value=notes[p.id]||"";
+  $("nt").oninput=function(){notes[p.id]=this.value};
+  $("close").onclick=function(){cur=null;if(win&&!win.closed)win.close();list();panel()};
+  $("sl").onclick=function(){toggle(p.id)};
+  $("int").onclick=function(){toast("Interest sent to "+p.n+" (demo). The founder decides whether to connect.")};
+  $("vid").onclick=function(){window.open("https://www.loom.com/","_blank","noopener")};
+  $("site").onclick=function(){
+    var w=screen.availWidth,h=screen.availHeight,ww=Math.round(w*.75);
+    win=window.open(p.site+"?sso=demo-token","seedlist_site","popup=yes,width="+ww+",height="+h+",left="+(w-ww)+",top=0");
+    if(!win)toast("Pop-up blocked. Allow pop-ups for this page.");
+  };
+}
+function toggle(id){if(short[id])delete short[id];else short[id]=1;nav();list();if(cur)panel()}
+$("list").onclick=function(e){
+  var r=e.target.closest(".row");if(!r)return;
+  var id=+r.dataset.id;
+  if(e.target.closest(".star")){toggle(id);return}
+  var p=P.filter(function(x){return x.id===id})[0];
+  if(cur&&p.s!==cur.s){toast("Close "+cur.n+" first. It is in "+cur.s+", and this one is in "+p.s+".");return}
+  cur=p;list();panel();$("panel").scrollTop=0;
+  if(win&&!win.closed)win.location=p.site+"?sso=demo-token";
+};
+$("list").onkeydown=function(e){if(e.key==="Enter"&&e.target.classList.contains("row"))e.target.click()};
+$("nav").onclick=function(e){var b=e.target.closest("button");if(!b)return;mode="browse";sector=b.dataset.s;nav();list()};
+$("tabs").onclick=function(e){var b=e.target.closest("button");if(!b)return;mode=b.dataset.m;nav();list()};
+$("flt").oninput=list;
+
+/* founder form */
+$("f2").innerHTML=S.map(function(s){return "<option>"+s+"</option>"}).join("");
+$("subm").onclick=function(){
+  if(!$("f1").value.trim()||!$("f8").value){toast("Add a project name and your 12-month growth number.");return}
+  $("subok").hidden=false;
+};
+/* weekly featured startup, bidding and anonymous donations (front end only) */
+var CAP=100000,STEP=10,WK=7*864e5,wk=Math.floor(Date.now()/WK),F=P[wk%P.length];
+var raised={1:42000,2:15000,3:63000,4:8000,5:91000,6:20000},openD=null;
+function money(n){return "$"+n.toLocaleString("en-US")}
+function bidLoad(){try{var v=localStorage.getItem("sl_bid_"+wk);if(v)return JSON.parse(v)}catch(e){}return {a:0,h:[]}}
+var bid=bidLoad();
+function bidSave(){try{localStorage.setItem("sl_bid_"+wk,JSON.stringify(bid))}catch(e){}}
+function left(){var ms=Math.max(0,(wk+1)*WK-Date.now()),d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),m=Math.floor(ms%36e5/6e4),s=Math.floor(ms%6e4/1e3);return d+"d "+h+"h "+m+"m "+s+"s"}
+function pop(url){var w=screen.availWidth,h=screen.availHeight,ww=Math.round(w*.75),x=window.open(url,"seedlist_public","popup=yes,width="+ww+",height="+h+",left="+(w-ww)+",top=0");if(!x)toast("Pop-up blocked. Allow pop-ups for this page.");return x}
+function renderHome(){
+  var nx=bid.a+STEP;
+  $("feat").innerHTML='<div class="mu" style="font-size:13px">Startup of the week · resets in <span id="cd">'+left()+'</span></div><h1>'+esc(F.n)+'</h1><p class="lead">'+esc(F.t)+'</p><div class="mu">'+F.s+' · '+F.m+'</div>'+
+  '<div class="bidbox"><div><small class="mu">'+(bid.a?'Current top bid':'No bids yet')+'</small><div class="big">'+money(bid.a)+'</div></div><div class="acts" style="margin:0"><button class="btn or" id="bid">Bid '+money(nx)+'</button><button class="btn" id="fv">Visit their site</button></div></div>'+
+  '<p class="mu" style="font-size:13px;margin:0">Each bid raises the price by '+money(STEP)+'. The top bidder when the week ends becomes the featured patron and is charged only the winning bid. No equity or shares.</p>'+
+  (bid.h.length?'<div class="hist">'+bid.h.slice(0,4).map(function(x){return '<div><span>Patron #'+x.n+'</span><b>'+money(x.a)+'</b></div>'}).join("")+'</div>':'');
+  $("bid").onclick=function(){bid.a+=STEP;bid.h.unshift({n:1000+Math.floor(Math.random()*9000),a:bid.a});bidSave();renderHome();toast("Top bid is now "+money(bid.a)+" (demo).")};
+  $("fv").onclick=function(){pop(F.site)};
+}
+setInterval(function(){var e=$("cd");if(e)e.textContent=left();if(Date.now()>=(wk+1)*WK)location.reload()},1000);
+function renderDonate(){
+  $("dl").innerHTML=P.map(function(p){
+    var r=raised[p.id],lf=CAP-r,pc=Math.round(r/CAP*100);
+    return '<div class="dc" data-id="'+p.id+'"><div class="top"><div><div class="nm">'+esc(p.n)+'</div><div class="ds">'+esc(p.t)+'</div><span class="tag">'+p.s+'</span></div><button class="btn" data-a="open"'+(lf?'':' disabled')+'>'+(lf?'Visit site and donate':'Cap reached')+'</button></div>'+
+    '<div class="bar"><i style="width:'+pc+'%"></i></div><div class="mu" style="font-size:13px">'+money(r)+' of '+money(CAP)+' patron cap</div>'+
+    (openD===p.id&&lf?'<div class="dbox"><b>Donate anonymously to '+esc(p.n)+'</b><div class="pre"><button data-p="10">$10</button><button data-p="50">$50</button><button data-p="100">$100</button><button data-p="500">$500</button></div><label for="da">Amount ($10 minimum, up to '+money(lf)+')</label><input id="da" type="number" min="10" max="'+lf+'"><p><button class="btn or" data-a="give">Donate anonymously</button></p><p class="mu" style="font-size:13px;margin:0">A gift. No equity, shares or returns. Your identity is not shared.</p></div>':'')+'</div>';
+  }).join("");
+}
+$("dl").onclick=function(e){
+  var c=e.target.closest(".dc"),b=e.target.closest("button");if(!c||!b)return;
+  var id=+c.dataset.id,p=P.filter(function(x){return x.id===id})[0],lf=CAP-raised[id];
+  if(b.dataset.a==="open"){openD=id;pop(p.site);renderDonate()}
+  else if(b.dataset.p){$("da").value=b.dataset.p}
+  else if(b.dataset.a==="give"){
+    var amt=Math.floor(+$("da").value);
+    if(!amt||amt<10){toast("The minimum donation is $10.");return}
+    if(amt>lf){toast("Only "+money(lf)+" is left under the cap.");return}
+    raised[id]+=amt;openD=null;renderDonate();toast("Thank you. Your anonymous gift of "+money(amt)+" is recorded (demo).");
+  }
+};
+route();
+</script>
+</body>
+</html>
